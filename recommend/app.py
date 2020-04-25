@@ -1,3 +1,12 @@
+'''
+- 데이터 소개
+- 줄거리 데이터 전처리
+- tf-idf 생성
+- 코사인 유사도 계산
+- 영화 제목 인덱싱
+- 특정 영화 제목으로 각 문서간 코사인 유사도 조회
+- 내림차순 정렬 후 상위데이터 조회
+'''
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
@@ -33,7 +42,7 @@ def get_recommendations(title, cosine_sim, recommend_size=10):
 
     return data['title'].iloc[movie_indices]
 
-data = df # .head(20000)
+data = df.head(20000)
 
 print('[전처리] NULL값 제거 ===========================')
 print('null 처리 전: ', data['overview'].isnull().sum())
@@ -49,8 +58,12 @@ print('shape: ',tfidf_matrix.shape) # shape: (20000, 47487) => (영화 갯수, �
 print('[토큰 백터화] IF-IDF 완료 ===========================\n')
 
 print('[유사도 측정] 코사인 유사도 시작 ===========================')
-cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix) # shpae: (20000, 20000) => (영화, 영화) 각 영화와 간의 유사율, n 번째 영화는 (n,n)는 1이 나온다. 
+
+cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix) 
+# shpae: (20000, 20000) => (영화, 영화) 각 영화와 간의 유사율, n 번째 영화는 (n,n)는 1이 나온다. 
+# linear_kernel은 두 문서간 dot product(내적 === 코사인 유사도)를 이용하여 유사도를 구한다
 print('shape: ', cosine_sim.shape)
+print(cosine_sim)
 print('[유사도 측정] 코사인 유사도 완료 ===========================\n')
 
 print('[인덱싱] index => 영화이름, value => index(number)')
