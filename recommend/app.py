@@ -39,8 +39,10 @@ def get_recommendations(title, cosine_sim, recommend_size=10):
     sim_scores = sim_scores[1:recommend_size + 1]
 
     movie_indices = [i[0] for i in sim_scores]
+    result = data.iloc[movie_indices].copy()
+    result['score'] = [i[1] for i in sim_scores]
 
-    return data['title'].iloc[movie_indices]
+    return result
 
 data = df.head(20000)
 

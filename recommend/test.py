@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
+import json
 import numpy as np
 
 docs = [
@@ -26,4 +27,5 @@ print()
 
 print('[Cosin Similarity]')
 cosine_sim = linear_kernel(tfidfv, tfidfv)
-print(cosine_sim)
+
+np.save('./c', cosine_sim)
